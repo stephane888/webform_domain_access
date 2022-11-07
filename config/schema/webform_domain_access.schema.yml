@@ -1,0 +1,11 @@
+webform.settings.third_party.webform_domain_access:
+  type: mapping
+  label: 'Webform webform_domain_access configuration'
+  mapping:
+    settings:
+      type: mapping
+      label: ' webform_domain_access settings'
+      mapping:
+        field_domain_access:
+          type: string
+          label: 'Domain access'

@@ -1,0 +1,59 @@
+<?php
+
+/**
+ *
+ * @file
+ * Primary module hooks for webform domain access module.
+ */
+use Drupal\Component\Utility\Html;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\webform\Entity\Webform;
+use Drupal\domain_access\DomainAccessManagerInterface;
+
+/**
+ *
+ * @param
+ *        $form
+ * @param
+ *        $form_state
+ * @param
+ *        $form_id
+ */
+function webform_domain_access_form_alter(&$form, &$form_state, $form_id) {
+  if ($form_id == 'webform_settings_form_form') {
+    $entity = $form_state->getFormObject()->getEntity();
+    $domain_sting = $entity->getThirdPartySetting('webform_domain_access', DomainAccessManagerInterface::DOMAIN_ACCESS_FIELD);
+    //
+    if (empty($domain_sting)) {
+      $domain_sting = \Drupal\creation_site_virtuel\CreationSiteVirtuel::getActiveDomain();
+    }
+
+    $form['third_party_settings']['#tree'] = TRUE;
+    $form['third_party_settings']['webform_domain_access'][DomainAccessManagerInterface::DOMAIN_ACCESS_FIELD] = [
+      '#type' => 'textfield',
+      '#title' => t('Domain access manager'),
+      '#default_value' => $domain_sting
+    ];
+    //
+    $form['actions']['submit']['#submit'][] = '_webform_domain_access_form_submit';
+  }
+}
+
+/**
+ *
+ * @param
+ *        $form
+ * @param FormStateInterface $form_state
+ * @throws \Drupal\Core\Entity\EntityStorageException
+ */
+function _webform_domain_access_form_submit(&$form, FormStateInterface $form_state) {
+  /** @var \Drupal\webform\WebformInterface $entity */
+  if ($entity = $form_state->getFormObject()->getEntity()) {
+    $entity->setThirdPartySetting('webform_domain_access', DomainAccessManagerInterface::DOMAIN_ACCESS_FIELD, $form_state->getValue([
+      'third_party_settings',
+      'webform_domain_access',
+      DomainAccessManagerInterface::DOMAIN_ACCESS_FIELD
+    ]));
+    $entity->save();
+  }
+}
