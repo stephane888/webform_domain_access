@@ -1,14 +1,14 @@
 {
-    "name": "stephane888/webform_domain_access",
-    "description": "webform && domain",
-    "type": "drupal-module-custom",
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "kouwa stephane",
-            "email": "kksasteph888@gmail.com"
-        }
-    ],
-    "minimum-stability": "dev",
-    "require": {}
+  "name": "stephane888/webform_domain_access",
+  "description": "webform && domain",
+  "type": "drupal-custom-module",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "kouwa stephane",
+      "email": "kksasteph888@gmail.com"
+    }
+  ],
+  "minimum-stability": "dev",
+  "require": {}
 }
